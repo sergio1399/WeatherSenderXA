@@ -1,5 +1,6 @@
 package app.components.service;
 
+import app.components.model.Forecast;
 import app.components.util.ForecastConverter;
 import app.components.exception.NotExistCityException;
 import app.components.view.ForecastCityView;
@@ -52,7 +53,6 @@ public class GetDataService {
         ForecastCityView forecastCityView = ForecastConverter.jsonToForecastCityView(json);
 
         jmsTemplate.convertAndSend(forecastCityView);
-
 
         return forecastCityView;
     }
