@@ -1,6 +1,7 @@
 package app.components.controller;
 
-import app.components.service.GetDataService;
+import app.components.service.GetForecastService;
+import app.components.service.SendForecastService;
 import app.components.view.ForecastCityView;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,16 +11,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.text.ParseException;
-
 @Controller
 public class ForecastController {
 
-    private GetDataService getDataService;
+    private GetForecastService getForecastService;
 
     @Autowired
-    public void setGetDataService(GetDataService getDataService) {
-        this.getDataService = getDataService;
+    public void setGetForecastService(GetForecastService getForecastService) {
+        this.getForecastService = getForecastService;
+    }
+
+    private SendForecastService sendForecastService;
+
+    @Autowired
+    public void setSendForecastService(SendForecastService sendForecastService) {
+        this.sendForecastService = sendForecastService;
     }
 
     @RequestMapping(path={"/"},method=RequestMethod.GET)
@@ -31,7 +37,8 @@ public class ForecastController {
     public String forecast(@RequestParam(value="city", required=true) String city, Model model) {
         ForecastCityView forecastCityView = null;
         try {
-            forecastCityView = getDataService.getView(city);
+            forecastCityView = getForecastService.getForecast(city);
+            sendForecastService.sendForecast(forecastCityView);
         }
         catch (Exception e){
             model.addAttribute("error", e.getMessage());

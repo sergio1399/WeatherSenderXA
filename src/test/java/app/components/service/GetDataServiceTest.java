@@ -13,7 +13,7 @@ import static org.junit.Assert.*;
 @RunWith(MockitoJUnitRunner.class)
 public class GetDataServiceTest {
     @Mock
-    private GetDataService getDataService;
+    private GetForecastService getForecastService;
 
     @Test
     public void getData() throws ParseException {
@@ -21,8 +21,8 @@ public class GetDataServiceTest {
         ForecastCityView view = new ForecastCityView.Builder("Boston").cityRegion(" MA").cityCountry("United States").
                 temperature("48").wind("chill: 48, direction:0, speed:4").text("Partly Cloudy").pressure(1021.0).
                 visibility(12.5).cityId(2367105).build();
-        org.mockito.Mockito.when(getDataService.getView("Boston")).thenReturn(view);
-        assertEquals(getDataService.getView("Boston"), view);
+        org.mockito.Mockito.when(getForecastService.getForecast("Boston")).thenReturn(view);
+        assertEquals(getForecastService.getForecast("Boston"), view);
     }
 
 }
